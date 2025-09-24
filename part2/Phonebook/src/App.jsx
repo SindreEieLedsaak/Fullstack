@@ -62,9 +62,11 @@ const App = () => {
     } else {
       phonebook.create(person).then((response) => {
         setPersons(persons.concat(response.data));
-
         handleNotification(`Added ${person.name}`);
-      });
+      })
+        .catch(error => {
+          handleNotification(error.response.data.error, "error");
+        });
     }
     setNewName("");
     setNewNumber("");
@@ -96,8 +98,8 @@ const App = () => {
 
   const personfilter = newFilter
     ? persons.filter((person) =>
-        person.name.toLowerCase().includes(newFilter.toLowerCase())
-      )
+      person.name.toLowerCase().includes(newFilter.toLowerCase())
+    )
     : persons;
 
   return (
